@@ -1,0 +1,220 @@
+/* ==========================================================================
+   XSNHA Data — canonical palette layer
+   --------------------------------------------------------------------------
+   Three comparable palettes. Layout, markup, data, and chart geometry stay
+   identical; only the tokens below change.
+
+   Usage:
+     <html data-xsnha-palette="black-red">      <!-- or body / any wrapper -->
+     <html data-xsnha-palette="white-blue">
+     <html data-xsnha-palette="yellow-green">
+
+   Never depend on host theme variables (--primary, --accent, color-scheme of
+   the host app). Scope the palette on a wrapper so embedded previews cannot
+   be recolored by the surrounding page.
+
+   Contrast figures in comments are approximate WCAG 2.x ratios measured
+   against the palette's panel surface. Recheck after editing any hex.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Palette-independent structure
+   -------------------------------------------------------------------------- */
+
+[data-xsnha-palette] {
+  --xsnha-radius: 8px;
+  --xsnha-radius-compact: 5px;
+  --xsnha-topbar: 86px;
+  --xsnha-sidebar: 288px;
+  --xsnha-content-max: 1500px;
+  --xsnha-font: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --xsnha-font-ja: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    YuGothic, Meiryo, "Noto Sans JP", system-ui, sans-serif;
+  --xsnha-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. black-red — charcoal surfaces, coral/red accent
+   -------------------------------------------------------------------------- */
+
+[data-xsnha-palette="black-red"] {
+  color-scheme: dark;
+
+  --xsnha-canvas: #0f0f0f;
+  --xsnha-chrome: #0a0a0a;
+  --xsnha-panel: #171717;
+  --xsnha-panel-raised: #1d1d1d;
+  --xsnha-panel-inset: rgba(255, 255, 255, 0.025);
+
+  /* text */
+  --xsnha-text: #ffffff;        /* 17.4:1 on panel */
+  --xsnha-muted: #a7a7a7;       /* 7.6:1  on panel — body and metadata */
+  --xsnha-faint: #6f6f6f;       /* 3.4:1  on panel — hints only, never body */
+
+  /* structure */
+  --xsnha-line: #333333;        /* decorative 1px rules, chart grid */
+  --xsnha-line-strong: #6a6a6a; /* interactive borders — 3.2:1 on panel */
+
+  /* accent = brand, active nav, primary action, focal series */
+  --xsnha-accent: #ffa796;
+  --xsnha-accent-pressed: #e78f7f;
+  --xsnha-on-accent: #0f0f0f;   /* 10.0:1 on accent */
+  --xsnha-accent-wash: rgba(255, 167, 150, 0.14);
+  --xsnha-accent-wash-soft: rgba(255, 167, 150, 0.08);
+  --xsnha-accent-border: rgba(255, 167, 150, 0.55);
+
+  /* semantics — fixed meaning, never reused as decoration */
+  --xsnha-positive: #68c36b;
+  --xsnha-warning: #ffd166;
+  --xsnha-danger: #ff574f;
+
+  /* chart ramp: accent first, then related mid-tones and warm neutrals */
+  --xsnha-series-1: #ffa796;
+  --xsnha-series-2: #e78f7f;
+  --xsnha-series-3: #b9786e;
+  --xsnha-series-4: #7b5b56;
+  --xsnha-series-5: #57504d;
+  --xsnha-grid: rgba(255, 255, 255, 0.09);
+
+  --xsnha-panel-bg: linear-gradient(
+    180deg,
+    rgba(25, 25, 25, 0.9),
+    rgba(16, 16, 16, 0.94)
+  );
+  --xsnha-panel-shadow: 0 18px 60px rgba(0, 0, 0, 0.2);
+  --xsnha-overlay-shadow: 0 20px 80px rgba(0, 0, 0, 0.34);
+}
+
+/* --------------------------------------------------------------------------
+   3. white-blue — paper surfaces, blue accent
+   -------------------------------------------------------------------------- */
+
+[data-xsnha-palette="white-blue"] {
+  color-scheme: light;
+
+  --xsnha-canvas: #f4f6f9;
+  --xsnha-chrome: #ffffff;
+  --xsnha-panel: #ffffff;
+  --xsnha-panel-raised: #eef1f6;
+  --xsnha-panel-inset: rgba(15, 23, 42, 0.03);
+
+  --xsnha-text: #0b1220;        /* 18.6:1 on panel */
+  --xsnha-muted: #55637a;       /* 5.7:1  on panel */
+  --xsnha-faint: #8794a8;       /* 3.1:1  on panel — hints only */
+
+  --xsnha-line: #d7dde8;        /* decorative 1px rules, chart grid */
+  --xsnha-line-strong: #8194ab; /* interactive borders — 3.1:1 on panel */
+
+  --xsnha-accent: #1f5fef;
+  --xsnha-accent-pressed: #164dd0;
+  --xsnha-on-accent: #ffffff;   /* 5.3:1 on accent */
+  --xsnha-accent-wash: rgba(31, 95, 239, 0.1);
+  --xsnha-accent-wash-soft: rgba(31, 95, 239, 0.06);
+  --xsnha-accent-border: rgba(31, 95, 239, 0.5);
+
+  --xsnha-positive: #1a7f43;    /* 5.1:1 on panel */
+  --xsnha-warning: #b45309;     /* 5.0:1 on panel */
+  --xsnha-danger: #c92a2a;      /* 5.5:1 on panel */
+
+  --xsnha-series-1: #1f5fef;
+  --xsnha-series-2: #4d84f6;
+  --xsnha-series-3: #7fa6f4;
+  --xsnha-series-4: #a9c2ee;
+  --xsnha-series-5: #94a3b8;
+  --xsnha-grid: rgba(15, 23, 42, 0.08);
+
+  --xsnha-panel-bg: linear-gradient(180deg, #ffffff, #fbfcfe);
+  --xsnha-panel-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  --xsnha-overlay-shadow: 0 20px 60px rgba(15, 23, 42, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   4. yellow-green — warm cream surfaces, green accent
+   -------------------------------------------------------------------------- */
+
+[data-xsnha-palette="yellow-green"] {
+  color-scheme: light;
+
+  --xsnha-canvas: #f7efdc;
+  --xsnha-chrome: #fdf8ea;
+  --xsnha-panel: #fffdf6;
+  --xsnha-panel-raised: #f3e9d0;
+  --xsnha-panel-inset: rgba(60, 46, 10, 0.04);
+
+  --xsnha-text: #1d1a10;        /* 17.1:1 on panel */
+  --xsnha-muted: #5c5340;       /* 7.5:1  on panel */
+  --xsnha-faint: #8f8468;       /* 3.6:1  on panel — hints only */
+
+  --xsnha-line: #ddd0ae;        /* decorative 1px rules, chart grid */
+  --xsnha-line-strong: #9c8f70; /* interactive borders — 3.1:1 on panel */
+
+  /* olive-leaning green so the accent stays distinguishable from the
+     positive semantic color in this palette */
+  --xsnha-accent: #4a7c2f;
+  --xsnha-accent-pressed: #3c6626;
+  --xsnha-on-accent: #fffdf6;   /* 5.3:1 on accent */
+  --xsnha-accent-wash: rgba(74, 124, 47, 0.12);
+  --xsnha-accent-wash-soft: rgba(74, 124, 47, 0.07);
+  --xsnha-accent-border: rgba(74, 124, 47, 0.5);
+
+  --xsnha-positive: #1e7a3c;    /* 5.3:1 on panel */
+  --xsnha-warning: #8a5a00;     /* 5.8:1 on panel */
+  --xsnha-danger: #b3261e;      /* 6.4:1 on panel */
+
+  --xsnha-series-1: #4a7c2f;
+  --xsnha-series-2: #6f9a4a;
+  --xsnha-series-3: #93b273;
+  --xsnha-series-4: #b9cb9f;
+  --xsnha-series-5: #a89b78;
+  --xsnha-grid: rgba(60, 46, 10, 0.1);
+
+  --xsnha-panel-bg: linear-gradient(180deg, #fffdf6, #faf4e3);
+  --xsnha-panel-shadow: 0 12px 32px rgba(76, 61, 20, 0.08);
+  --xsnha-overlay-shadow: 0 20px 60px rgba(76, 61, 20, 0.16);
+}
+
+/* --------------------------------------------------------------------------
+   5. Shared primitives
+   -------------------------------------------------------------------------- */
+
+.xsnha-surface {
+  border: 1px solid var(--xsnha-line);
+  border-radius: var(--xsnha-radius);
+  background: var(--xsnha-panel-bg);
+  box-shadow: var(--xsnha-panel-shadow);
+}
+
+/* Interactive borders need the stronger rule to clear 3:1. */
+.xsnha-control {
+  border: 1px solid var(--xsnha-line-strong);
+  border-radius: var(--xsnha-radius-compact);
+  background: var(--xsnha-panel-raised);
+  color: var(--xsnha-text);
+}
+
+.xsnha-focus:focus-visible,
+.xsnha-control:focus-visible {
+  outline: 2px solid var(--xsnha-accent);
+  outline-offset: 2px;
+}
+
+.xsnha-kpi-number,
+.xsnha-table-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.xsnha-muted {
+  color: var(--xsnha-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-xsnha-palette] *,
+  [data-xsnha-palette] *::before,
+  [data-xsnha-palette] *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

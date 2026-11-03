@@ -1,0 +1,65 @@
+:root {
+  color-scheme: dark;
+  --xsnha-canvas: #0f0f0f;
+  --xsnha-chrome: #0a0a0a;
+  --xsnha-panel: #171717;
+  --xsnha-panel-raised: #1d1d1d;
+  --xsnha-text: #ffffff;
+  --xsnha-muted: #a7a7a7;
+  --xsnha-faint: #6f6f6f;
+  --xsnha-line: #333333;
+  --xsnha-line-strong: #6a6a6a;
+  --xsnha-coral: #ffa796;
+  --xsnha-coral-pressed: #e78f7f;
+  --xsnha-positive: #68c36b;
+  --xsnha-warning: #ffd166;
+  --xsnha-danger: #ff574f;
+  --xsnha-accent: var(--xsnha-coral);
+  --xsnha-accent-pressed: var(--xsnha-coral-pressed);
+  --xsnha-on-accent: #0f0f0f;
+  --xsnha-accent-wash: rgba(255, 167, 150, 0.14);
+  --xsnha-accent-wash-soft: rgba(255, 167, 150, 0.08);
+  --xsnha-accent-border: rgba(255, 167, 150, 0.55);
+  --xsnha-series-1: #ffa796;
+  --xsnha-series-2: #e78f7f;
+  --xsnha-series-3: #b9786e;
+  --xsnha-series-4: #7b5b56;
+  --xsnha-series-5: #57504d;
+  --xsnha-grid: rgba(255, 255, 255, 0.09);
+  --xsnha-radius: 8px;
+  --xsnha-radius-compact: 5px;
+  --xsnha-panel-bg: linear-gradient(180deg, rgba(25, 25, 25, 0.9), rgba(16, 16, 16, 0.94));
+  --xsnha-panel-shadow: 0 18px 60px rgba(0, 0, 0, 0.2);
+  --xsnha-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --xsnha-font-ja: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, Meiryo, "Noto Sans JP", system-ui, sans-serif;
+}
+
+/* Single-palette fallback for host projects. For the three-variant comparison
+   use xsnha-data-palettes.css instead, which scopes the same roles under
+   [data-xsnha-palette="black-red" | "white-blue" | "yellow-green"]. */
+
+.xsnha-surface {
+  border: 1px solid var(--xsnha-line);
+  border-radius: var(--xsnha-radius);
+  background: var(--xsnha-panel-bg);
+  box-shadow: var(--xsnha-panel-shadow);
+}
+
+.xsnha-focus:focus-visible {
+  outline: 2px solid var(--xsnha-coral);
+  outline-offset: 3px;
+}
+
+.xsnha-kpi-number,
+.xsnha-table-number {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

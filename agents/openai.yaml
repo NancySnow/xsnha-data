@@ -1,0 +1,4 @@
+interface:
+  display_name: "XSNHA Data"
+  short_description: "Build analytical data UIs in the XSNHA system, in three palettes"
+  default_prompt: "Use $xsnha-data to build this product in the XSNHA analytical interface system and preview it in all three palettes — black-red, white-blue, and yellow-green — with identical layout, data, and chart geometry."

@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en" data-xsnha-palette="black-red">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>XSNHA Data — preview template</title>
+<link rel="stylesheet" href="./xsnha-data-palettes.css" />
+<style>
+  /* Structural skeleton only. All color comes from the palette layer, so the
+     three variants stay byte-identical below this block except for the
+     data-xsnha-palette attribute on <html>. */
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--xsnha-canvas);
+    color: var(--xsnha-text);
+    font-family: var(--xsnha-font);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- shell ---------- */
+  .app { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .topbar {
+    height: var(--xsnha-topbar);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 0 52px;
+    background: var(--xsnha-chrome);
+    border-bottom: 1px solid var(--xsnha-line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .brand {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .brand span { color: var(--xsnha-accent); }
+  .topnav { display: flex; gap: 26px; height: 100%; align-items: stretch; }
+  .topnav a {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--xsnha-muted);
+    text-decoration: none;
+  }
+  .topnav a[aria-current="page"] {
+    color: var(--xsnha-text);
+    box-shadow: inset 0 -3px 0 var(--xsnha-accent);
+  }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--xsnha-accent-wash);
+    border: 1px solid var(--xsnha-accent-border);
+    color: var(--xsnha-accent);
+    font-size: 12px; font-weight: 800;
+  }
+
+  .body { display: flex; flex: 1 1 auto; min-height: 0; }
+
+  .sidebar {
+    width: var(--xsnha-sidebar);
+    flex: 0 0 auto;
+    background: var(--xsnha-chrome);
+    border-right: 1px solid var(--xsnha-line);
+    padding: 22px 18px;
+  }
+  .navgroup + .navgroup { margin-top: 26px; }
+  .navlabel {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--xsnha-faint);
+    padding: 0 12px 8px;
+  }
+  .navitem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--xsnha-radius-compact);
+    color: var(--xsnha-muted);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-left: 4px solid transparent;
+  }
+  .navitem:hover { background: var(--xsnha-panel-raised); color: var(--xsnha-text); }
+  .navitem[aria-current="page"] {
+    color: var(--xsnha-text);
+    border-left-color: var(--xsnha-accent);
+    background: linear-gradient(90deg, var(--xsnha-accent-wash), transparent);
+  }
+  .navitem .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--xsnha-faint);
+  }
+  .navitem[aria-current="page"] .dot { background: var(--xsnha-accent); }
+  .navitem .count {
+    margin-left: auto;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    padding: 1px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--xsnha-line);
+    color: var(--xsnha-muted);
+  }
+
+  .content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-y: auto;
+    padding: 38px 52px 60px;
+  }
+  .content > .inner { max-width: var(--xsnha-content-max); margin: 0 auto; }
+
+  /* ---------- page head ---------- */
+  .pagehead { display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--xsnha-faint); margin: 0 0 8px;
+  }
+  h1 { margin: 0; font-size: 40px; font-weight: 900; line-height: 1.1; letter-spacing: -0.01em; }
+  .sub { margin: 8px 0 0; color: var(--xsnha-muted); font-size: 15px; }
+  .pagehead .tools { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .btn {
+    height: 38px; padding: 0 16px;
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: var(--xsnha-radius-compact);
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    border: 1px solid var(--xsnha-line-strong);
+    background: transparent; color: var(--xsnha-text);
+  }
+  .btn-primary {
+    border: 0;
+    background: linear-gradient(180deg, var(--xsnha-accent), var(--xsnha-accent-pressed));
+    color: var(--xsnha-on-accent);
+  }
+
+  /* ---------- toolbar ---------- */
+  .toolbar {
+    margin-top: 24px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 12px 14px;
+    border: 1px solid var(--xsnha-line);
+    border-radius: var(--xsnha-radius);
+    background: var(--xsnha-panel-inset);
+  }
+  .field {
+    height: 34px; padding: 0 12px;
+    display: inline-flex; align-items: center;
+    border: 1px solid var(--xsnha-line-strong);
+    border-radius: var(--xsnha-radius-compact);
+    background: var(--xsnha-panel-raised);
+    color: var(--xsnha-muted);
+    font-size: 13px;
+  }
+  .toolbar .meta { margin-left: auto; color: var(--xsnha-faint); font-size: 12px; }
+
+  /* ---------- KPI ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .kpi { padding: 22px 24px; }
+  .kpi h2 {
+    margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--xsnha-muted);
+  }
+  .kpi .value { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .kpi .value small { font-size: 15px; font-weight: 600; color: var(--xsnha-muted); margin-left: 6px; }
+  .kpi .delta { margin-top: 8px; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .up { color: var(--xsnha-positive); }
+  .down { color: var(--xsnha-danger); }
+  .kpi .was { color: var(--xsnha-faint); font-size: 12px; }
+
+  /* ---------- charts ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  .panel { padding: 22px 24px; }
+  .panel.span2 { grid-column: span 2; }
+  .panel-head { display: flex; align-items: baseline; gap: 12px; }
+  .panel-head h3 { margin: 0; font-size: 16px; font-weight: 800; }
+  .panel-head .unit { margin-left: auto; font-size: 12px; color: var(--xsnha-faint); }
+  .panel-note { margin: 4px 0 14px; font-size: 12px; color: var(--xsnha-muted); }
+  .plot { width: 100%; height: auto; display: block; overflow: visible; }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    margin-top: 12px; font-size: 12px; color: var(--xsnha-muted);
+  }
+  .legend i {
+    width: 10px; height: 10px; border-radius: 2px;
+    display: inline-block; margin-right: 6px; vertical-align: -1px;
+  }
+  .source { margin: 14px 0 0; font-size: 11px; color: var(--xsnha-faint); }
+
+  /* ---------- table ---------- */
+  .tablewrap { overflow-x: auto; margin-top: 4px; }
+  table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--xsnha-line); }
+  th {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--xsnha-muted); white-space: nowrap;
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: var(--xsnha-panel-inset); }
+  .tag {
+    display: inline-block; padding: 2px 8px;
+    font-size: 11px; font-weight: 700;
+    border-radius: var(--xsnha-radius-compact);
+    border: 1px solid var(--xsnha-line-strong);
+    color: var(--xsnha-muted);
+  }
+  .tag.ok { color: var(--xsnha-positive); border-color: currentColor; }
+  .tag.warn { color: var(--xsnha-warning); border-color: currentColor; }
+  .tag.bad { color: var(--xsnha-danger); border-color: currentColor; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .panel.span2 { grid-column: span 2; }
+  }
+  @media (max-width: 980px) {
+    .topbar { padding: 0 24px; gap: 16px; }
+    .topnav { display: none; }
+    .sidebar { display: none; }
+    .content { padding: 24px 20px 44px; }
+  }
+  @media (max-width: 720px) {
+    h1 { font-size: 30px; }
+    .kpis, .grid { grid-template-columns: 1fr; }
+    .panel.span2 { grid-column: span 1; }
+    .pagehead .tools { width: 100%; margin-left: 0; }
+    .btn { height: 44px; }
+    .kpi .value { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<!--
+  HOW TO USE
+  1. Copy this file three times, or render it three times server-side.
+  2. Change ONLY the data-xsnha-palette attribute on <html>:
+       black-red | white-blue | yellow-green
+  3. Keep every other byte identical — same markup, same numbers, same SVG
+     geometry — so the comparison is about color direction, not layout.
+  4. Replace the sample data with the product's real metrics; keep the
+     structure (title → toolbar → KPI row → charts → table → source line).
+  5. For a Japanese interface set lang="ja" on <html> and follow
+     references/japanese-typography.md; keep the identical palette attributes.
+-->
+<div class="app">
+  <header class="topbar">
+    <div class="brand">XSNHA<span>·</span>DATA</div>
+    <nav class="topnav" aria-label="Primary">
+      <a href="#" aria-current="page">Overview</a>
+      <a href="#">Reports</a>
+      <a href="#">Library</a>
+      <a href="#">Sources</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="xsnha-muted" style="font-size:13px">FY2025 · Q3</span>
+      <div class="avatar" role="img" aria-label="Signed in as K. Sato">KS</div>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="sidebar">
+      <nav aria-label="Analysis sections">
+        <div class="navgroup">
+          <div class="navlabel">Workspace</div>
+          <a class="navitem" href="#" aria-current="page"><span class="dot"></span>Revenue overview</a>
+          <a class="navitem" href="#"><span class="dot"></span>Margin analysis <span class="count">12</span></a>
+          <a class="navitem" href="#"><span class="dot"></span>Cost centres</a>
+          <a class="navitem" href="#"><span class="dot"></span>Forecast</a>
+        </div>
+        <div class="navgroup">
+          <div class="navlabel">Data</div>
+          <a class="navitem" href="#"><span class="dot"></span>Sources <span class="count">7</span></a>
+          <a class="navitem" href="#"><span class="dot"></span>Reconciliations</a>
+          <a class="navitem" href="#"><span class="dot"></span>Exports</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="inner">
+        <div class="pagehead">
+          <div>
+            <p class="eyebrow">Consolidated · 3 entities</p>
+            <h1>Revenue overview</h1>
+            <p class="sub">Closed month through 30 Sep 2025, compared with the previous 12 months.</p>
+          </div>
+          <div class="tools">
+            <button class="btn" type="button">Export CSV</button>
+            <button class="btn btn-primary" type="button">New report</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <span class="field">Period: FY2025</span>
+          <span class="field">Entity: All</span>
+          <span class="field">Currency: JPY</span>
+          <span class="meta">Data refreshed 14:32 JST · 4 min ago</span>
+        </div>
+
+        <section class="kpis" aria-label="Key metrics">
+          <article class="kpi xsnha-surface">
+            <h2>Net revenue</h2>
+            <div class="value xsnha-kpi-number">¥482.6<small>M</small></div>
+            <div class="delta up xsnha-kpi-number">▲ 6.4% <span class="was">vs ¥453.5M prior</span></div>
+          </article>
+          <article class="kpi xsnha-surface">
+            <h2>Gross margin</h2>
+            <div class="value xsnha-kpi-number">38.2<small>%</small></div>
+            <div class="delta up xsnha-kpi-number">▲ 1.1 pt <span class="was">vs 37.1% prior</span></div>
+          </article>
+          <article class="kpi xsnha-surface">
+            <h2>Open reconciliations</h2>
+            <div class="value xsnha-kpi-number">27</div>
+            <div class="delta down xsnha-kpi-number">▲ 5 <span class="was">vs 22 prior</span></div>
+          </article>
+        </section>
+
+        <section class="grid" aria-label="Charts">
+          <article class="panel span2 xsnha-surface">
+            <div class="panel-head">
+              <h3>Monthly revenue and forecast</h3>
+              <span class="unit">JPY millions</span>
+            </div>
+            <p class="panel-note">Actuals through September; October onward is model output.</p>
+            <svg class="plot" viewBox="0 0 720 240" role="img"
+                 aria-label="Line chart of monthly revenue from Oct 2024 to Mar 2026, actuals rising from 31 to 33 million yen with a forecast band above.">
+              <!-- grid -->
+              <g stroke="var(--xsnha-grid)" stroke-width="1">
+                <line x1="40" y1="20"  x2="700" y2="20"/>
+                <line x1="40" y1="66"  x2="700" y2="66"/>
+                <line x1="40" y1="112" x2="700" y2="112"/>
+                <line x1="40" y1="158" x2="700" y2="158"/>
+                <line x1="40" y1="204" x2="700" y2="204"/>
+              </g>
+              <!-- y labels -->
+              <g fill="var(--xsnha-muted)" font-size="10" font-family="inherit" text-anchor="end">
+                <text x="32" y="24">60</text>
+                <text x="32" y="70">45</text>
+                <text x="32" y="116">30</text>
+                <text x="32" y="162">15</text>
+                <text x="32" y="208">0</text>
+              </g>
+              <!-- forecast region -->
+              <rect x="470" y="20" width="230" height="184" fill="var(--xsnha-accent-wash-soft)"/>
+              <text x="478" y="34" fill="var(--xsnha-faint)" font-size="10">Forecast</text>
+              <!-- secondary series -->
+              <polyline fill="none" stroke="var(--xsnha-series-3)" stroke-width="2"
+                points="40,150 95,145 150,152 205,140 260,146 315,134 370,138 425,128 480,132 535,120 590,126 645,114 700,118"/>
+              <!-- focal series -->
+              <polyline fill="none" stroke="var(--xsnha-series-1)" stroke-width="2.5"
+                stroke-linejoin="round" stroke-linecap="round"
+                points="40,168 95,160 150,166 205,150 260,156 315,140 370,146 425,126 480,116 535,100 590,92 645,78 700,70"/>
+              <!-- points on focal series -->
+              <g fill="var(--xsnha-panel)" stroke="var(--xsnha-series-1)" stroke-width="2">
+                <circle cx="425" cy="126" r="3.5"/>
+                <circle cx="700" cy="70"  r="3.5"/>
+              </g>
+              <!-- x labels -->
+              <g fill="var(--xsnha-muted)" font-size="10" text-anchor="middle">
+                <text x="40"  y="224">Oct</text>
+                <text x="150" y="224">Dec</text>
+                <text x="260" y="224">Feb</text>
+                <text x="370" y="224">Apr</text>
+                <text x="480" y="224">Jun</text>
+                <text x="590" y="224">Aug</text>
+                <text x="700" y="224">Oct</text>
+              </g>
+            </svg>
+            <div class="legend">
+              <span><i style="background:var(--xsnha-series-1)"></i>Net revenue</span>
+              <span><i style="background:var(--xsnha-series-3)"></i>Prior year</span>
+            </div>
+            <p class="source">Source: ERP close (3 entities) · refresh 14:32 JST · figures unaudited</p>
+          </article>
+
+          <article class="panel xsnha-surface">
+            <div class="panel-head">
+              <h3>Revenue by segment</h3>
+              <span class="unit">% of total</span>
+            </div>
+            <p class="panel-note">September close, five reported segments.</p>
+            <svg class="plot" viewBox="0 0 260 190" role="img"
+                 aria-label="Horizontal bar chart of revenue share: Platform 42, Services 26, Licensing 15, Hardware 11, Other 6 percent.">
+              <g font-size="10" fill="var(--xsnha-muted)">
+                <text x="0" y="22">Platform</text>
+                <text x="0" y="56">Services</text>
+                <text x="0" y="90">Licensing</text>
+                <text x="0" y="124">Hardware</text>
+                <text x="0" y="158">Other</text>
+              </g>
+              <g>
+                <rect x="80" y="12"  width="126" height="14" rx="2" fill="var(--xsnha-series-1)"/>
+                <rect x="80" y="46"  width="78"  height="14" rx="2" fill="var(--xsnha-series-2)"/>
+                <rect x="80" y="80"  width="45"  height="14" rx="2" fill="var(--xsnha-series-3)"/>
+                <rect x="80" y="114" width="33"  height="14" rx="2" fill="var(--xsnha-series-4)"/>
+                <rect x="80" y="148" width="18"  height="14" rx="2" fill="var(--xsnha-series-5)"/>
+              </g>
+              <g font-size="10" fill="var(--xsnha-text)" font-variant-numeric="tabular-nums">
+                <text x="214" y="23">42%</text>
+                <text x="166" y="57">26%</text>
+                <text x="133" y="91">15%</text>
+                <text x="121" y="125">11%</text>
+                <text x="106" y="159">6%</text>
+              </g>
+            </svg>
+            <p class="source">Source: segment ledger · 5 segments reported</p>
+          </article>
+        </section>
+
+        <section class="grid" aria-label="Table" style="grid-template-columns:1fr">
+          <article class="panel xsnha-surface">
+            <div class="panel-head">
+              <h3>Entity close status</h3>
+              <span class="unit">September 2025</span>
+            </div>
+            <div class="tablewrap">
+              <table>
+                <caption class="xsnha-muted" style="text-align:left;font-size:12px;padding:6px 0 10px">
+                  Close status by reporting entity, with revenue variance against forecast.
+                </caption>
+                <colgroup>
+                  <col style="width:32%" /><col style="width:16%" /><col style="width:16%" />
+                  <col style="width:16%" /><col style="width:20%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Entity</th>
+                    <th scope="col" class="num">Revenue</th>
+                    <th scope="col" class="num">Variance</th>
+                    <th scope="col">Closed</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>XSNHA Japan K.K.</td>
+                    <td class="num">¥248.1M</td>
+                    <td class="num up">▲ 3.8%</td>
+                    <td>30 Sep</td>
+                    <td><span class="tag ok">Closed</span></td>
+                  </tr>
+                  <tr>
+                    <td>XSNHA Singapore Pte.</td>
+                    <td class="num">¥132.4M</td>
+                    <td class="num down">▼ 1.2%</td>
+                    <td>02 Oct</td>
+                    <td><span class="tag warn">In review</span></td>
+                  </tr>
+                  <tr>
+                    <td>XSNHA Germany GmbH</td>
+                    <td class="num">¥101.9M</td>
+                    <td class="num up">▲ 0.6%</td>
+                    <td>01 Oct</td>
+                    <td><span class="tag ok">Closed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Intercompany elimination</td>
+                    <td class="num">(¥2.3M)</td>
+                    <td class="num">—</td>
+                    <td>03 Oct</td>
+                    <td><span class="tag bad">Pending</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="source">Source: consolidation ledger · tabular numerals · right-aligned amounts</p>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>
